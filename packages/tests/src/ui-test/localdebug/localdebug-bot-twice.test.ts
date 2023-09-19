@@ -10,7 +10,11 @@ import {
   stopDebugging,
   waitForTerminal,
 } from "../../utils/vscodeOperation";
-import { initPage, validateEchoBot } from "../../utils/playwrightOperation";
+import {
+  initPage,
+  validateBot,
+  validateEchoBot,
+} from "../../utils/playwrightOperation";
 import { LocalDebugTestContext } from "./localdebugContext";
 import {
   Timeout,
@@ -30,7 +34,7 @@ describe("Local Debug Tests", function () {
   beforeEach(async function () {
     // ensure workbench is ready
     this.timeout(Timeout.prepareTestCase);
-    localDebugTestContext = new LocalDebugTestContext("bot");
+    localDebugTestContext = new LocalDebugTestContext("crbot");
     await localDebugTestContext.before();
   });
 
@@ -52,7 +56,7 @@ describe("Local Debug Tests", function () {
       );
       validateFileExist(projectPath, "index.js");
       const driver = VSBrowser.instance.driver;
-      await startDebugging(DebugItemSelect.DebugInTeamsUsingChrome);
+      await startDebugging(DebugItemSelect.DebugUsingChrome);
 
       await waitForTerminal(LocalDebugTaskLabel.StartLocalTunnel);
       try {
@@ -68,7 +72,7 @@ describe("Local Debug Tests", function () {
         } catch (error) {
           console.log(`close port 3978 failed`);
         }
-        await startDebugging(DebugItemSelect.DebugInTeamsUsingChrome);
+        await startDebugging(DebugItemSelect.DebugUsingChrome);
         await waitForTerminal(LocalDebugTaskLabel.StartLocalTunnel);
         await waitForTerminal(
           LocalDebugTaskLabel.StartBotApp,
@@ -97,7 +101,7 @@ describe("Local Debug Tests", function () {
         } catch (error) {
           console.log(`close port 3978 failed`);
         }
-        await startDebugging(DebugItemSelect.DebugInTeamsUsingChrome);
+        await startDebugging(DebugItemSelect.DebugUsingChrome);
         try {
           await waitForTerminal(
             LocalDebugTaskLabel.StartBotApp,
@@ -131,7 +135,11 @@ describe("Local Debug Tests", function () {
         Env.password
       );
       await localDebugTestContext.validateLocalStateForBot();
-      await validateEchoBot(page);
+      // await validateEchoBot(page);
+      await validateBot(page, {
+        botCommand: "helloWorld",
+        expected: "Your Hello World App is Running",
+      });
     }
   );
 });
