@@ -65,5 +65,5 @@ export function useTeamsUserCredential(
     }
     return new TeamsUserCredential(authConfig);
   });
-  return { teamsUserCredential: data, error, loading, ...result };
+  return { ...result, teamsUserCredential: data, error, loading: loading || result.loading };
 }

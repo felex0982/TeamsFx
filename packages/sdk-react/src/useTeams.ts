@@ -40,11 +40,13 @@ export function useTeams(options?: {
     theme: Theme;
     themeString: string;
     context?: app.Context;
+    loading: boolean;
   },
   {
     setTheme: (theme: string | undefined) => void;
   }
 ] {
+  const [loading, setLoading] = useState<boolean>(true);
   const [inTeams, setInTeams] = useState<boolean | undefined>(undefined);
   const [fullScreen, setFullScreen] = useState<boolean | undefined>(undefined);
   const [theme, setTheme] = useState<Theme>(teamsLightTheme);
@@ -93,15 +95,21 @@ export function useTeams(options?: {
             pages.registerFullScreenHandler((isFullScreen) => {
               setFullScreen(isFullScreen);
             });
+            setLoading(false);
           })
           .catch(() => {
+            setLoading(false);
             setInTeams(false);
           });
       })
       .catch(() => {
+        setLoading(false);
         setInTeams(false);
       });
   }, []);
 
-  return [{ inTeams, fullScreen, theme, context, themeString }, { setTheme: overrideThemeHandler }];
+  return [
+    { inTeams, fullScreen, theme, context, themeString, loading },
+    { setTheme: overrideThemeHandler },
+  ];
 }
