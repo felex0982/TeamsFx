@@ -29,3 +29,4 @@ jobs:
           configurationFile: .github/renovate.json
         env:
           RENOVATE_FORK_TOKEN: "${{ secrets.FORK_RENOVATE_PAT }}"
+          LOG_LEVEL: debug

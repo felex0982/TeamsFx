@@ -4,10 +4,10 @@
   "username": "teamsfx-renovate[bot]",
   "gitAuthor": "teamsfx-renovate<134346904+teamsfx-renovate[bot]@users.noreply.github.com>",
   "dependencyDashboard": false,
+  "dryRun": "full",
   "repositories": ["OfficeDev/TeamsFx"],
   "includePaths": ["packages/sdk/**", "packages/sdk-react/**", "templates/**"],
   "enabledManagers": ["npm"],
-  "debug": true,
   "npm": { "fileMatch": ["(^|/)package\\.json.tpl$"] },
   "packageRules": [
     {
