@@ -7,6 +7,7 @@
   "repositories": ["OfficeDev/TeamsFx"],
   "includePaths": ["packages/sdk/**", "packages/sdk-react/**", "templates/**"],
   "enabledManagers": ["npm"],
+  "debug": true,
   "npm": {
     "fileMatch": ["(^|/)package\\.json.tpl$"]
   },
