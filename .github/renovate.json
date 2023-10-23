@@ -57,9 +57,23 @@
       ],
       "matchPaths": [
         "packages/sdk/package.json",
-        "packages/sdk-react/package.json",
-        "templates/**/package.json.tpl"
+        "packages/sdk-react/package.json"
       ],
+      "rangeStrategy": "bump"
+    },
+    {
+      "matchPackageNames": [
+        "botbuilder",
+        "botbuilder-dialogs",
+        "botframework-schema",
+        "botbuilder-core",
+        "@microsoft/teams-js",
+        "@microsoft/microsoft-graph-client",
+        "@microsoft/mgt-element",
+        "@microsoft/mgt-react",
+        "@microsoft/mgt-teamsfx-provider"
+      ],
+      "matchPaths": ["templates/**/package.json.tpl"],
       "rangeStrategy": "auto"
     }
   ]
