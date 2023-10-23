@@ -1,6 +1,6 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": ["config:base"],
+  "extends": ["config:recommended"],
   "username": "teamsfx-renovate[bot]",
   "gitAuthor": "teamsfx-renovate<134346904+teamsfx-renovate[bot]@users.noreply.github.com>",
   "dependencyDashboard": false,
@@ -8,9 +8,7 @@
   "includePaths": ["packages/sdk/**", "packages/sdk-react/**", "templates/**"],
   "enabledManagers": ["npm"],
   "debug": true,
-  "npm": {
-    "fileMatch": ["(^|/)package\\.json.tpl$"]
-  },
+  "npm": { "fileMatch": ["(^|/)package\\.json.tpl$"] },
   "packageRules": [
     {
       "enabled": false,
@@ -56,7 +54,7 @@
         "@microsoft/mgt-react",
         "@microsoft/mgt-teamsfx-provider"
       ],
-      "matchPaths": [
+      "matchFileNames": [
         "packages/sdk/package.json",
         "packages/sdk-react/package.json"
       ],
@@ -74,7 +72,7 @@
         "@microsoft/mgt-react",
         "@microsoft/mgt-teamsfx-provider"
       ],
-      "matchPaths": ["templates/**/package.json.tpl"],
+      "matchFileNames": ["templates/**/package.json.tpl"],
       "rangeStrategy": "auto"
     }
   ]
