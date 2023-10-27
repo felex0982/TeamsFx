@@ -43,6 +43,17 @@ import { getWebappServicePlan } from "../commonlib/utilities";
 export const TEN_MEGA_BYTE = 1024 * 1024 * 10;
 export const execAsync = promisify(exec);
 
+export async function runCliCommand(string: string) {
+  process.argv = [
+    "node", // Not used but a value is required at this index in the array
+    "cli.js", // Not used but a value is required at this index in the array
+    ...string.split(" "),
+  ];
+
+  // Require the yargs CLI script
+  return require("../../cli");
+}
+
 export async function execAsyncWithRetry(
   command: string,
   options: {

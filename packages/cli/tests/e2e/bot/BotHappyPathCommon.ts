@@ -10,6 +10,7 @@ import { BotValidator } from "../../commonlib";
 import {
   cleanUp,
   execAsync,
+  runCliCommand,
   execAsyncWithRetry,
   getTestFolder,
   getUniqueAppName,
@@ -35,20 +36,19 @@ export async function happyPathTest(
   if (runtime === Runtime.Dotnet) {
     env["TEAMSFX_CLI_DOTNET"] = "true";
   }
-  const cliPath = path.resolve(__dirname, "..", "..", "..", "src", "index.ts");
-  const prefixCmd = `node ${cliPath}`
   const triggerStr = trigger === undefined ? "" : `--bot-host-type-trigger ${trigger.join(" ")} `;
-  const cmdBase = `${prefixCmd} new --interactive false --app-name ${appName} --capability ${capabilities} ${triggerStr}`;
+  const cmdBase = `new --interactive false --app-name ${appName} --capability ${capabilities} ${triggerStr} --folder ${testFolder}`;
   const cmd =
     runtime === Runtime.Dotnet
       ? `${cmdBase} --runtime dotnet`
       : `${cmdBase} --programming-language typescript`;
   console.log(`ready to run CMD: ${cmd}`);
-  await execAsync(cmd, {
-    cwd: testFolder,
-    env: env,
-    timeout: 0,
-  });
+  // await execAsync(cmd, {
+  //   cwd: testFolder,
+  //   env: env,
+  //   timeout: 0,
+  // });
+  await runCliCommand(cmd);
   console.log(`[Successfully] scaffold to ${projectPath}`);
 
   // set subscription
@@ -77,12 +77,13 @@ export async function happyPathTest(
   }
 
   // deploy
-  const cmdStr = `${prefixCmd} deploy`;
-  await execAsyncWithRetry(cmdStr, {
-    cwd: projectPath,
-    env: env,
-    timeout: 0,
-  });
+  const cmdStr = `deploy --folder ${projectPath}`;
+  // await execAsyncWithRetry(cmdStr, {
+  //   cwd: projectPath,
+  //   env: env,
+  //   timeout: 0,
+  // });
+  await runCliCommand(cmdStr);
   console.log(`[Successfully] deploy for ${projectPath}`);
 
   {
@@ -97,18 +98,20 @@ export async function happyPathTest(
   }
 
   // test (validate)
-  await execAsyncWithRetry(`${prefixCmd} validate --env ${envName}`, {
-    cwd: projectPath,
-    env: env,
-    timeout: 0,
-  });
+  // await execAsyncWithRetry(`validate --env ${envName} --folder ${projectPath}`, {
+  //   cwd: projectPath,
+  //   env: env,
+  //   timeout: 0,
+  // });
+  await runCliCommand(`validate --env ${envName} --folder ${projectPath}`);
 
   // package
-  await execAsyncWithRetry(`${prefixCmd} package --env ${envName}`, {
-    cwd: projectPath,
-    env: env,
-    timeout: 0,
-  });
+  // await execAsyncWithRetry(`${prefixCmd} package --env ${envName}`, {
+  //   cwd: projectPath,
+  //   env: env,
+  //   timeout: 0,
+  // });
+  await runCliCommand(`package --env ${envName} --folder ${projectPath}`);
 
   console.log(`[Successfully] start to clean up for ${projectPath}`);
   await cleanUp(appName, projectPath, false, true, false);
