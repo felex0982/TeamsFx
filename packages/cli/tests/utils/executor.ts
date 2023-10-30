@@ -7,6 +7,18 @@ import { TemplateProjectFolder } from "./constants";
 import { Capability } from "../utils/constants";
 import path from "path";
 
+function runCommand(cmd: string) {
+  console.log('------------------ command:', cmd);
+  process.argv = [
+    "node", // Not used but a value is required at this index in the array
+    "cli.js", // Not used but a value is required at this index in the array
+    ...cmd.split(" "),
+  ];
+
+  // Require the yargs CLI script
+  return require("./../../cli");
+}
+
 export class Executor {
   static async execute(
     command: string,
@@ -15,11 +27,12 @@ export class Executor {
     timeout?: number
   ) {
     try {
-      const result = await execAsync(command, {
-        cwd,
-        env: processEnv ?? process.env,
-        timeout: timeout ?? 0,
-      });
+      // const result = await execAsync(command, {
+      //   cwd,
+      //   env: processEnv ?? process.env,
+      //   timeout: timeout ?? 0,
+      // });
+      const result = await runCommand(`${command.replace("teamsfx ", "")} --folder ${cwd}`);
       if (result.stderr) {
         /// the command exit with 0
         console.log(`[Success] "${command}" in ${cwd} with some stderr: ${result.stderr}`);
