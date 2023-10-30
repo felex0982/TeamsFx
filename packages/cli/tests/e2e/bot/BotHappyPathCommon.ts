@@ -48,7 +48,8 @@ export async function happyPathTest(
   //   env: env,
   //   timeout: 0,
   // });
-  await execAsync(`npx ts-node ./cli.js ${cmd}`, {
+  const filePath = path.resolve(__dirname, "../../../cli.js");
+  await execAsync(`npx ts-node ${filePath} ${cmd}`, {
     cwd: testFolder,
     env: env,
     timeout: 0,
@@ -81,7 +82,7 @@ export async function happyPathTest(
   }
 
   // deploy
-  const cmdStr = `npx ts-node ./cli.js deploy`;
+  const cmdStr = `npx ts-node ${filePath} deploy`;
   await execAsyncWithRetry(cmdStr, {
     cwd: projectPath,
     env: env,
@@ -102,7 +103,7 @@ export async function happyPathTest(
   }
 
   // test (validate)
-  await execAsyncWithRetry(`npx ts-node ./cli.js validate --env ${envName}`, {
+  await execAsyncWithRetry(`npx ts-node ${filePath} validate --env ${envName}`, {
     cwd: projectPath,
     env: env,
     timeout: 0,
@@ -110,7 +111,7 @@ export async function happyPathTest(
   // await runCliCommand(`validate --env ${envName} --folder ${projectPath}`);
 
   // package
-  await execAsyncWithRetry(`npx ts-node ./cli.js package --env ${envName}`, {
+  await execAsyncWithRetry(`npx ts-node ${filePath} package --env ${envName}`, {
     cwd: projectPath,
     env: env,
     timeout: 0,
