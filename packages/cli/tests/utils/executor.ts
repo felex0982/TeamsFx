@@ -27,12 +27,12 @@ export class Executor {
     timeout?: number
   ) {
     try {
-      // const result = await execAsync(command, {
-      //   cwd,
-      //   env: processEnv ?? process.env,
-      //   timeout: timeout ?? 0,
-      // });
-      const result = await runCommand(`${command.replace("teamsfx ", "")} --folder ${cwd}`);
+      const result = await execAsync(`npx ts-node ./cli.js ${command.replace("teamsfx ", "")}`, {
+        cwd,
+        env: processEnv ?? process.env,
+        timeout: timeout ?? 0,
+      });
+      // const result = await runCommand(`${command.replace("teamsfx ", "")} --folder ${cwd}`);
       if (result.stderr) {
         /// the command exit with 0
         console.log(`[Success] "${command}" in ${cwd} with some stderr: ${result.stderr}`);

@@ -1,6 +1,9 @@
 const sinon = require("sinon");
 const mocha = require("mocha");
 const chai = require("chai");
+const exec = require("child_process").exec;
+const promisify = require("util").promisify;
+const execAsync = promisify(exec);
 describe("cli", async () => {
   let originalArgv;
   const sandbox = sinon.createSandbox();
@@ -21,7 +24,7 @@ describe("cli", async () => {
   });
 
   it("should run install command", async () => {
-    const stdlog = await runCommand("--help");
+    const stdlog = await execAsync("npx ts-node ./cli.js --help");
     console.log("------------------", stdlog);
   });
 });

@@ -37,7 +37,7 @@ export async function happyPathTest(
     env["TEAMSFX_CLI_DOTNET"] = "true";
   }
   const triggerStr = trigger === undefined ? "" : `--bot-host-type-trigger ${trigger.join(" ")} `;
-  const cmdBase = `new --interactive false --app-name ${appName} --capability ${capabilities} ${triggerStr} --folder ${testFolder}`;
+  const cmdBase = `new --interactive false --app-name ${appName} --capability ${capabilities} ${triggerStr}`;
   const cmd =
     runtime === Runtime.Dotnet
       ? `${cmdBase} --runtime dotnet`
@@ -48,7 +48,11 @@ export async function happyPathTest(
   //   env: env,
   //   timeout: 0,
   // });
-  await runCliCommand(cmd);
+  await execAsync(`npx ts-node ./cli.js ${cmd}`, {
+    cwd: testFolder,
+    env: env,
+    timeout: 0,
+  });
   console.log(`[Successfully] scaffold to ${projectPath}`);
 
   // set subscription
@@ -77,12 +81,12 @@ export async function happyPathTest(
   }
 
   // deploy
-  const cmdStr = `deploy --folder ${projectPath}`;
-  // await execAsyncWithRetry(cmdStr, {
-  //   cwd: projectPath,
-  //   env: env,
-  //   timeout: 0,
-  // });
+  const cmdStr = `npx ts-node ./cli.js deploy`;
+  await execAsyncWithRetry(cmdStr, {
+    cwd: projectPath,
+    env: env,
+    timeout: 0,
+  });
   await runCliCommand(cmdStr);
   console.log(`[Successfully] deploy for ${projectPath}`);
 
@@ -98,20 +102,20 @@ export async function happyPathTest(
   }
 
   // test (validate)
-  // await execAsyncWithRetry(`validate --env ${envName} --folder ${projectPath}`, {
-  //   cwd: projectPath,
-  //   env: env,
-  //   timeout: 0,
-  // });
-  await runCliCommand(`validate --env ${envName} --folder ${projectPath}`);
+  await execAsyncWithRetry(`npx ts-node ./cli.js validate --env ${envName}`, {
+    cwd: projectPath,
+    env: env,
+    timeout: 0,
+  });
+  // await runCliCommand(`validate --env ${envName} --folder ${projectPath}`);
 
   // package
-  // await execAsyncWithRetry(`${prefixCmd} package --env ${envName}`, {
-  //   cwd: projectPath,
-  //   env: env,
-  //   timeout: 0,
-  // });
-  await runCliCommand(`package --env ${envName} --folder ${projectPath}`);
+  await execAsyncWithRetry(`npx ts-node ./cli.js package --env ${envName}`, {
+    cwd: projectPath,
+    env: env,
+    timeout: 0,
+  });
+  // await runCliCommand(`npx ts-node ./cli.js package --env ${envName} --folder ${projectPath}`);
 
   console.log(`[Successfully] start to clean up for ${projectPath}`);
   await cleanUp(appName, projectPath, false, true, false);
