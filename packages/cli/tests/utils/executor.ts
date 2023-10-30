@@ -27,7 +27,8 @@ export class Executor {
     timeout?: number
   ) {
     try {
-      const result = await execAsync(`npx ts-node ./cli.js ${command.replace("teamsfx ", "")}`, {
+      const filePath = path.resolve(__dirname, "./../../cli.js");
+      const result = await execAsync(`npx ts-node ${filePath} ${command.replace("teamsfx ", "")}`, {
         cwd,
         env: processEnv ?? process.env,
         timeout: timeout ?? 0,
