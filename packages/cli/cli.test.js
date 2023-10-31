@@ -4,6 +4,7 @@ const chai = require("chai");
 const exec = require("child_process").exec;
 const promisify = require("util").promisify;
 const execAsync = promisify(exec);
+const path = require('path');
 describe("cli", async () => {
   let originalArgv;
   const sandbox = sinon.createSandbox();
@@ -24,7 +25,8 @@ describe("cli", async () => {
   });
 
   it("should run install command", async () => {
-    const stdlog = await execAsync("npx ts-node ./cli.js --help");
+    const filePath = path.resolve(__dirname, "./cli.js");
+    const stdlog = await execAsync(`npx ts-node ${filePath} --help`);
     console.log("------------------", stdlog);
   });
 });
