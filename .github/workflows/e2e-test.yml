@@ -158,7 +158,7 @@ jobs:
         run: |
           cd packages/fx-core/build/
           ls -a
-          cd ../cli/node_modules/@microsoft/teamsfx-core/build
+          cd ../../cli/node_modules/@microsoft/teamsfx-core/build
           echo "--------------------"
           ls -a
 
