@@ -154,6 +154,14 @@ jobs:
         run: |
           lscpu
 
+      - name: print build files
+        run: |
+          cd packages/fx-core
+          ls -a
+          cd ../cli/node_modules/@microsoft/teamsfx-core/build
+          echo "--------------------"
+          ls -a
+
       - name: run test
         working-directory: packages/fx-core
         run: |

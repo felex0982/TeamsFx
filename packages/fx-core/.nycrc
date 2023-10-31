@@ -3,7 +3,7 @@
   "all": true,
   "extension": [".ts", ".js"],
   "include": [
-    "build/**"
+    "build/"
   ],
   "reporter": [
     "text",
