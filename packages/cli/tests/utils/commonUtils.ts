@@ -10,25 +10,6 @@ import { exec, spawn, SpawnOptionsWithoutStdio } from "child_process";
 import { promisify } from "util";
 import { Executor } from "./executor";
 
-// const execd = (...args) => {
-//   const cmd = args[0];
-//   const cmdStr = cmd.split('teamsfx ', '');
-//   const filePath = path.resolve(__dirname, "./../../cli.js");
-//   const cmdUpdate = `npx ts-node ${filePath} ${cmdStr}`;
-//   args[0] = cmdUpdate;
-//   return exec(cmdUpdate, ...args);
-// }
-// export const execAsync = promisify(exec);
-
-// export const execAsyncD = (...args) => {
-//   const cmd = args[0];
-//   const cmdStr = cmd.split('teamsfx ', '');
-//   const filePath = path.resolve(__dirname, "./../../cli.js");
-//   const cmdUpdate = `npx ts-node ${filePath} ${cmdStr}`;
-//   args[0] = cmdUpdate;
-//   return promisify(exec);
-// }
-
 export async function execAsync(
   cmd: string,
   opts?: {
