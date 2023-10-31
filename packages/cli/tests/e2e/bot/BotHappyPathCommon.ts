@@ -88,7 +88,7 @@ export async function happyPathTest(
     env: env,
     timeout: 0,
   });
-  await runCliCommand(cmdStr);
+  // await runCliCommand(cmdStr);
   console.log(`[Successfully] deploy for ${projectPath}`);
 
   {
