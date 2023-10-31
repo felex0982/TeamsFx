@@ -156,7 +156,7 @@ jobs:
 
       - name: print build files
         run: |
-          cd packages/fx-core
+          cd packages/fx-core/build/
           ls -a
           cd ../cli/node_modules/@microsoft/teamsfx-core/build
           echo "--------------------"
@@ -166,6 +166,13 @@ jobs:
         working-directory: packages/fx-core
         run: |
           npx nyc mocha ../cli/tests/e2e/bot/EchoBotHappyPath.tests.ts
+
+      - name: run cli script
+        working-directory:  packages/fx-core
+        run: |
+          rm -rf coverage
+          rm -rf .nyc_output
+          npx nyc mocha ../cli/cli.test.js
 
       # - name: get report name
       #   id: get-report-name
