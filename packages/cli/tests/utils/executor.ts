@@ -8,7 +8,7 @@ import { Capability } from "../utils/constants";
 import path from "path";
 
 function runCommand(cmd: string) {
-  console.log('------------------ command:', cmd);
+  console.log("------------------ command:", cmd);
   process.argv = [
     "node", // Not used but a value is required at this index in the array
     "cli.js", // Not used but a value is required at this index in the array
@@ -27,8 +27,7 @@ export class Executor {
     timeout?: number
   ) {
     try {
-      const filePath = path.resolve(__dirname, "./../../cli.js");
-      const result = await execAsync(`npx ts-node ${filePath} ${command.replace("teamsfx ", "")}`, {
+      const result = await execAsync(command, {
         cwd,
         env: processEnv ?? process.env,
         timeout: timeout ?? 0,

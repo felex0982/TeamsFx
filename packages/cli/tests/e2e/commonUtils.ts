@@ -41,10 +41,36 @@ import {
 import { getWebappServicePlan } from "../commonlib/utilities";
 
 export const TEN_MEGA_BYTE = 1024 * 1024 * 10;
-export const execAsync = promisify(exec);
+
+export async function execAsync(
+  cmd: string,
+  opts?: {
+    cwd?: string;
+    env?: NodeJS.ProcessEnv;
+    timeout?: number;
+  }
+): Promise<{ stdout: string; stderr: string }> {
+  opts || (opts = {});
+  return new Promise((resolve, reject) => {
+    const cmdStr = cmd.replace("teamsfx ", "");
+    const filePath = path.resolve(__dirname, "./../../cli.js");
+    const cmdUpdate = `npx ts-node ${filePath} ${cmdStr}`;
+    console.log("!! ------ Cmd: ", cmdUpdate);
+    const child = exec(cmdUpdate, opts, (err, stdout, stderr) =>
+      err
+        ? reject(err)
+        : resolve({
+            stdout: stdout.toString(),
+            stderr: stderr.toString(),
+          })
+    );
+  });
+}
+
+// export const execAsync = promisifyExec(execD);
 
 export async function runCliCommand(string: string) {
-  console.log('!------------------ cmd:', string);
+  console.log("!------------------ cmd:", string);
   process.argv = [
     "node", // Not used but a value is required at this index in the array
     "cli.js", // Not used but a value is required at this index in the array

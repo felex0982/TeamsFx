@@ -10,7 +10,49 @@ import { exec, spawn, SpawnOptionsWithoutStdio } from "child_process";
 import { promisify } from "util";
 import { Executor } from "./executor";
 
-export const execAsync = promisify(exec);
+// const execd = (...args) => {
+//   const cmd = args[0];
+//   const cmdStr = cmd.split('teamsfx ', '');
+//   const filePath = path.resolve(__dirname, "./../../cli.js");
+//   const cmdUpdate = `npx ts-node ${filePath} ${cmdStr}`;
+//   args[0] = cmdUpdate;
+//   return exec(cmdUpdate, ...args);
+// }
+// export const execAsync = promisify(exec);
+
+// export const execAsyncD = (...args) => {
+//   const cmd = args[0];
+//   const cmdStr = cmd.split('teamsfx ', '');
+//   const filePath = path.resolve(__dirname, "./../../cli.js");
+//   const cmdUpdate = `npx ts-node ${filePath} ${cmdStr}`;
+//   args[0] = cmdUpdate;
+//   return promisify(exec);
+// }
+
+export async function execAsync(
+  cmd: string,
+  opts?: {
+    cwd?: string;
+    env?: NodeJS.ProcessEnv;
+    timeout?: number;
+  }
+): Promise<{ stdout: string; stderr: string }> {
+  opts || (opts = {});
+  return new Promise((resolve, reject) => {
+    const cmdStr = cmd.replace("teamsfx ", "");
+    const filePath = path.resolve(__dirname, "./../../cli.js");
+    const cmdUpdate = `npx ts-node ${filePath} ${cmdStr}`;
+    console.log("!==== command: ", cmdUpdate);
+    const child = exec(cmdUpdate, opts, (err, stdout, stderr) =>
+      err
+        ? reject(err)
+        : resolve({
+            stdout: stdout.toString(),
+            stderr: stderr.toString(),
+          })
+    );
+  });
+}
 
 export async function execAsyncWithRetry(
   command: string,
