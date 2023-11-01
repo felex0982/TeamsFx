@@ -164,6 +164,8 @@ jobs:
 
       - name: run test
         working-directory: packages/fx-core
+        env:
+          NODE_OPTIONS: "--max_old_space_size=4096"
         run: |
           npx nyc mocha ../cli/tests/e2e/bot/EchoBotHappyPath.tests.ts
 
