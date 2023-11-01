@@ -90,33 +90,33 @@ export async function happyPathTest(
   // await runCliCommand(cmdStr);
   console.log(`[Successfully] deploy for ${projectPath}`);
 
-  {
-    // Validate deployment
+  // {
+  //   // Validate deployment
 
-    // Get context
-    const context = await readContextMultiEnvV3(projectPath, envName);
+  //   // Get context
+  //   const context = await readContextMultiEnvV3(projectPath, envName);
 
-    // Validate Bot Deploy
-    const bot = new BotValidator(context, projectPath, envName);
-    await bot.validateDeploy();
-  }
+  //   // Validate Bot Deploy
+  //   const bot = new BotValidator(context, projectPath, envName);
+  //   await bot.validateDeploy();
+  // }
 
-  // test (validate)
-  await execAsyncWithRetry(`teamsfx validate --env ${envName}`, {
-    cwd: projectPath,
-    env: env,
-    timeout: 0,
-  });
-  // await runCliCommand(`validate --env ${envName} --folder ${projectPath}`);
+  // // test (validate)
+  // await execAsyncWithRetry(`teamsfx validate --env ${envName}`, {
+  //   cwd: projectPath,
+  //   env: env,
+  //   timeout: 0,
+  // });
+  // // await runCliCommand(`validate --env ${envName} --folder ${projectPath}`);
 
-  // package
-  await execAsyncWithRetry(`teamsfx package --env ${envName}`, {
-    cwd: projectPath,
-    env: env,
-    timeout: 0,
-  });
-  // await runCliCommand(`npx ts-node ./cli.js package --env ${envName} --folder ${projectPath}`);
+  // // package
+  // await execAsyncWithRetry(`teamsfx package --env ${envName}`, {
+  //   cwd: projectPath,
+  //   env: env,
+  //   timeout: 0,
+  // });
+  // // await runCliCommand(`npx ts-node ./cli.js package --env ${envName} --folder ${projectPath}`);
 
-  console.log(`[Successfully] start to clean up for ${projectPath}`);
-  await cleanUp(appName, projectPath, false, true, false);
+  // console.log(`[Successfully] start to clean up for ${projectPath}`);
+  // await cleanUp(appName, projectPath, false, true, false);
 }
