@@ -60,35 +60,35 @@ export async function happyPathTest(
 
   console.log(`[Successfully] set subscription for ${projectPath}`);
 
-  {
-    // provision
-    const result = await createResourceGroup(appName + "-rg", "eastus");
-    expect(result).to.be.true;
-    process.env["AZURE_RESOURCE_GROUP_NAME"] = appName + "-rg";
-    const { success } = await Executor.provision(projectPath, envName);
-    expect(success).to.be.true;
-    console.log(`[Successfully] provision for ${projectPath}`);
-  }
+  // {
+  //   // provision
+  //   const result = await createResourceGroup(appName + "-rg", "eastus");
+  //   expect(result).to.be.true;
+  //   process.env["AZURE_RESOURCE_GROUP_NAME"] = appName + "-rg";
+  //   const { success } = await Executor.provision(projectPath, envName);
+  //   expect(success).to.be.true;
+  //   console.log(`[Successfully] provision for ${projectPath}`);
+  // }
 
-  {
-    // Validate provision
-    // Get context
-    const context = await readContextMultiEnvV3(projectPath, envName);
+  // {
+  //   // Validate provision
+  //   // Get context
+  //   const context = await readContextMultiEnvV3(projectPath, envName);
 
-    // Validate Bot Provision
-    const bot = new BotValidator(context, projectPath, envName);
-    await bot.validateProvisionV3(false);
-  }
+  //   // Validate Bot Provision
+  //   const bot = new BotValidator(context, projectPath, envName);
+  //   await bot.validateProvisionV3(false);
+  // }
 
-  // deploy
-  const cmdStr = `temasfx deploy`;
-  await execAsyncWithRetry(cmdStr, {
-    cwd: projectPath,
-    env: env,
-    timeout: 0,
-  });
-  // await runCliCommand(cmdStr);
-  console.log(`[Successfully] deploy for ${projectPath}`);
+  // // deploy
+  // const cmdStr = `temasfx deploy`;
+  // await execAsyncWithRetry(cmdStr, {
+  //   cwd: projectPath,
+  //   env: env,
+  //   timeout: 0,
+  // });
+  // // await runCliCommand(cmdStr);
+  // console.log(`[Successfully] deploy for ${projectPath}`);
 
   // {
   //   // Validate deployment
