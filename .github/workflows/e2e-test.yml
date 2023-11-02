@@ -157,7 +157,7 @@ jobs:
       - name: run test
         working-directory: packages/fx-core
         run: |
-          npx nyc mocha ../cli/tests/e2e/bot/EchoBotHappyPath.tests.ts
+          npx nyc mocha --parallel ../cli/tests/e2e/**/*.tests.ts
 
       # - name: get report name
       #   id: get-report-name
