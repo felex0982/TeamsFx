@@ -157,7 +157,34 @@ jobs:
       - name: run test
         working-directory: packages/fx-core
         run: |
-          npx nyc mocha --parallel ../cli/tests/e2e/**/*.tests.ts
+          npx nyc mocha ../cli/tests/e2e/bot/EchoBotHappyPath.tests.ts.tests.ts
+      
+      - name: mv files
+        working-directory: packages/fx-core
+        run: |
+          mv .nyc_output .nyc_output1
+          mv coverage coverage1
+
+      - name: run test 2
+        working-directory: packages/fx-core
+        run: |
+          npx nyc mocha ../cli/tests/e2e/armDriver/jsonFormatAndMultipleDeployment.tests.ts
+
+      - name: mv file
+        working-directory: packages/fx-core
+        run: |
+          mv .nyc_output .nyc_output2
+          mv coverage coverage2
+          npx nyc merge .nyc_output1 .nyc_output/test1.json
+          npx nyc merge .nyc_output2 .nyc_output/test2.json
+          npx nyc report
+
+      - name: run test both
+        working-directory: packages/fx-core
+        run: |
+          rm .nyc_output
+          rm coverage
+          npx nyc mocha ../cli/tests/e2e/bot/EchoBotHappyPath.tests.ts.tests.ts ../cli/tests/e2e/armDriver/jsonFormatAndMultipleDeployment.tests.ts
 
       # - name: get report name
       #   id: get-report-name
