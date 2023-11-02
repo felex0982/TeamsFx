@@ -158,7 +158,7 @@ jobs:
         if: ${{ always() }}
         working-directory: packages/fx-core
         run: |
-          npx nyc mocha ../cli/tests/e2e/bot/EchoBotHappyPath.tests.ts.tests.ts
+          npx nyc mocha ../cli/tests/e2e/bot/EchoBotHappyPath.tests.ts
       
       - name: mv files
         if: ${{ always() }}
@@ -189,7 +189,7 @@ jobs:
         run: |
           rm .nyc_output
           rm coverage
-          npx nyc mocha ../cli/tests/e2e/bot/EchoBotHappyPath.tests.ts.tests.ts ../cli/tests/e2e/armDriver/jsonFormatAndMultipleDeployment.tests.ts
+          npx nyc mocha ../cli/tests/e2e/bot/EchoBotHappyPath.tests.ts ../cli/tests/e2e/armDriver/jsonFormatAndMultipleDeployment.tests.ts
 
       # - name: get report name
       #   id: get-report-name
