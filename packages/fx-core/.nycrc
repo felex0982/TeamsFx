@@ -13,5 +13,6 @@
     "lcov"
   ],
   "check-coverage": true,
+  "excludeAfterRemap":false,
   "lines": 72.7
 }
