@@ -55,9 +55,9 @@ describe("Remote debug Tests", function () {
   });
 
   it(
-    "[auto] Create and run SPFx project with React framework using globle environment",
+    "[auto] Create and run SPFx project with React framework using globally installed packages",
     {
-      testPlanCaseId: 11042969,
+      testPlanCaseId: 17818847,
       author: "v-helzha@microsoft.com",
     },
     async function () {
@@ -65,6 +65,7 @@ describe("Remote debug Tests", function () {
       const driver = VSBrowser.instance.driver;
       await createNewProject("gspfxreact", appName);
       validateFileExist(projectPath, "src/src/index.ts");
+      validateFileExist(projectPath, ".yo-rc.json");
       await clearNotifications();
       await execCommandIfExist(CommandPaletteCommands.ProvisionCommand);
       await driver.sleep(Timeout.spfxProvision);

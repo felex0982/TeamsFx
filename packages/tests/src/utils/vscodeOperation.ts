@@ -722,7 +722,6 @@ export async function createNewProject(
       break;
     }
     case "gspfxreact": {
-      scaffoldingTime = scaffoldingSpfxTime;
       await input.selectQuickPick(CreateProjectQuestion.Tab);
       await driver.sleep(Timeout.input);
       await input.selectQuickPick("SPFx");
