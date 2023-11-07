@@ -3,6 +3,7 @@
 
 import { BaseComponentInnerError } from "../error/componentError";
 import { errorSource } from "./constant";
+import axios from "axios";
 
 export class CancelDownloading extends Error {}
 
@@ -50,27 +51,46 @@ export class UnzipError extends BaseComponentInnerError {
 }
 
 export class DownloadSampleNetworkError extends BaseComponentInnerError {
-  constructor(url: string) {
+  constructor(url: string, error: Error) {
     super(
       errorSource,
       "UserError",
       "DownloadSampleNetworkError",
       "error.generator.DownloadSampleNetworkError",
-      [url]
+      [url],
+      ["plugins.frontend.checkNetworkTip"],
+      undefined,
+      undefined,
+      error
     );
   }
 }
 
 export class DownloadSampleApiLimitError extends BaseComponentInnerError {
-  constructor(url: string) {
+  constructor(url: string, error: Error) {
     super(
       errorSource,
       "UserError",
       "DownloadSampleApiLimitError",
       "error.generator.DownloadSampleApiLimitError",
-      [url]
+      [url],
+      undefined,
+      undefined,
+      undefined,
+      error
     );
   }
+}
+
+export function isApiLimitError(error: Error): boolean {
+  //https://docs.github.com/en/rest/overview/rate-limits-for-the-rest-api?apiVersion=2022-11-28#exceeding-the-rate-limit
+  return (
+    axios.isAxiosError(error) &&
+    error.response !== undefined &&
+    (error.response.status === 403 || error.response.status === 429) &&
+    error.response.headers !== undefined &&
+    error.response.headers["x-ratelimit-remaining"] === "0"
+  );
 }
 
 export class ParseUrlError extends BaseComponentInnerError {

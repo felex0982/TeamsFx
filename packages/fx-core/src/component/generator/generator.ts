@@ -16,6 +16,7 @@ import {
   errorSource,
   sampleDefaultTimeoutInMs,
 } from "./constant";
+
 import {
   CancelDownloading,
   DownloadSampleApiLimitError,
@@ -25,6 +26,7 @@ import {
   TemplateNotFoundError,
   TemplateZipFallbackError,
   UnzipError,
+  isApiLimitError,
 } from "./error";
 import {
   DownloadDirectoryActionSeq,
@@ -33,7 +35,12 @@ import {
   GeneratorContext,
   TemplateActionSeq,
 } from "./generatorAction";
-import { getSampleInfoFromName, renderTemplateFileData, renderTemplateFileName } from "./utils";
+import {
+  convertToUrl,
+  getSampleInfoFromName,
+  renderTemplateFileData,
+  renderTemplateFileName,
+} from "./utils";
 import { sampleProvider } from "../../common/samples";
 import { enableTestToolByDefault } from "../../common/featureFlags";
 import { getSafeRegistrationIdEnvName } from "../../common/spec-parser/utils";
@@ -209,10 +216,10 @@ export async function sampleDefaultOnActionError(
         await fs.rm(context.destination, { recursive: true });
       }
       if (error instanceof BaseComponentInnerError) throw error.toFxError();
-      else if (error.message.includes("403")) {
-        throw new DownloadSampleApiLimitError(context.url!).toFxError();
+      else if (isApiLimitError(error)) {
+        throw new DownloadSampleApiLimitError(convertToUrl(context.sampleInfo!), error).toFxError();
       } else {
-        throw new DownloadSampleNetworkError(context.url!).toFxError();
+        throw new DownloadSampleNetworkError(convertToUrl(context.sampleInfo!), error).toFxError();
       }
     case GeneratorActionName.FetchZipFromUrl:
       throw new FetchZipFromUrlError(context.url!, error).toFxError();

@@ -349,3 +349,7 @@ export function convertToLangKey(programmingLanguage: string): string {
   }
   return programmingLanguage;
 }
+
+export function convertToUrl(sampleInfo: SampleUrlInfo): string {
+  return `https://github.com/${sampleInfo.owner}/${sampleInfo.repository}/tree/${sampleInfo.ref}/${sampleInfo.dir}`;
+}
