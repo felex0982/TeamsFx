@@ -3,16 +3,13 @@
   "all": true,
   "extension": [".ts", ".js"],
   "include": [
-    "build/**"
+    "src/"
   ],
   "reporter": [
     "text",
-    "html",
-    "json-summary",
-    "cobertura",
-    "lcov"
+    "json-summary"
   ],
   "check-coverage": true,
-  "excludeAfterRemap":false,
+  "excludeAfterRemap":true,
   "lines": 72.7
 }
