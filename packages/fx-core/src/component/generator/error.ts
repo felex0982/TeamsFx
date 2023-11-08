@@ -50,7 +50,7 @@ export class UnzipError extends BaseComponentInnerError {
   }
 }
 
-function simplifyAxiosError(error: AxiosError): Error {
+export function simplifyAxiosError(error: AxiosError): Error {
   const simplifiedError = {
     message: error.message,
     name: error.name,

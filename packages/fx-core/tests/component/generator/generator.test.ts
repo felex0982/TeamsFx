@@ -39,6 +39,7 @@ import { placeholderDelimiters } from "../../../src/component/generator/constant
 import sampleConfigV3 from "../../common/samples-config-v3.json";
 import Mustache from "mustache";
 import * as folderUtils from "../../../../fx-core/src/folder";
+import { simplifyAxiosError } from "../../../src/component/generator/error";
 
 const mockedSampleInfo: SampleConfig = {
   id: "test-id",
@@ -373,6 +374,39 @@ describe("Generator utils", () => {
     };
     const url = generatorUtils.convertToUrl(sampleInfo);
     assert.equal(url, "https://github.com/OfficeDev/TeamsFx-Samples/tree/dev/test");
+  });
+  it("should simplify an AxiosError", () => {
+    const mockError: AxiosError = {
+      message: "Test error",
+      name: "AxiosError",
+      config: {},
+      code: "500",
+      stack: "Error stack",
+      response: {
+        status: 500,
+        statusText: "Internal Server Error",
+        headers: {},
+        data: "Error data",
+        config: {},
+      },
+      isAxiosError: true,
+      toJSON: () => ({}),
+    };
+
+    const simplifiedError = simplifyAxiosError(mockError);
+    const expectedError = {
+      message: "Test error",
+      name: "AxiosError",
+      config: {},
+      code: "500",
+      stack: "Error stack",
+      status: 500,
+      statusText: "Internal Server Error",
+      headers: {},
+      data: "Error data",
+    };
+
+    assert.deepEqual(simplifiedError, expectedError);
   });
 });
 
