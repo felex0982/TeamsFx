@@ -12,6 +12,8 @@ import {
   runWithLimitedConcurrency,
   renderTemplateFileData,
   renderTemplateFileName,
+  simplifyAxiosError,
+  isApiLimitError,
 } from "../../../src/component/generator/utils";
 import { assert } from "chai";
 import {
@@ -39,7 +41,6 @@ import { placeholderDelimiters } from "../../../src/component/generator/constant
 import sampleConfigV3 from "../../common/samples-config-v3.json";
 import Mustache from "mustache";
 import * as folderUtils from "../../../../fx-core/src/folder";
-import { simplifyAxiosError } from "../../../src/component/generator/error";
 
 const mockedSampleInfo: SampleConfig = {
   id: "test-id",
@@ -375,6 +376,7 @@ describe("Generator utils", () => {
     const url = generatorUtils.convertToUrl(sampleInfo);
     assert.equal(url, "https://github.com/OfficeDev/TeamsFx-Samples/tree/dev/test");
   });
+
   it("should simplify an AxiosError", () => {
     const mockError: AxiosError = {
       message: "Test error",
@@ -392,7 +394,6 @@ describe("Generator utils", () => {
       isAxiosError: true,
       toJSON: () => ({}),
     };
-
     const simplifiedError = simplifyAxiosError(mockError);
     const expectedError = {
       message: "Test error",
@@ -407,6 +408,49 @@ describe("Generator utils", () => {
     };
 
     assert.deepEqual(simplifiedError, expectedError);
+  });
+
+  it("should return true for an API limit error", () => {
+    const mockError: AxiosError = {
+      message: "Rate limit exceeded",
+      name: "AxiosError",
+      config: {},
+      code: "403",
+      stack: "Error stack",
+      response: {
+        config: {},
+        status: 403,
+        statusText: "rate limit exceeded",
+        headers: {
+          "x-ratelimit-remaining": "0",
+        },
+        data: "Error data",
+      },
+      isAxiosError: true,
+      toJSON: () => ({}),
+    };
+
+    assert.isTrue(isApiLimitError(mockError));
+  });
+
+  it("should return false for a non-API limit error", () => {
+    const mockError: AxiosError = {
+      message: "Not Found",
+      name: "AxiosError",
+      config: {},
+      code: "404",
+      stack: "Error stack",
+      response: {
+        config: {},
+        status: 404,
+        statusText: "Not Found",
+        headers: {},
+        data: "Error data",
+      },
+      isAxiosError: true,
+      toJSON: () => ({}),
+    };
+    assert.isFalse(isApiLimitError(mockError));
   });
 });
 

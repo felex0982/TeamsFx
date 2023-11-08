@@ -26,7 +26,6 @@ import {
   TemplateNotFoundError,
   TemplateZipFallbackError,
   UnzipError,
-  isApiLimitError,
 } from "./error";
 import {
   DownloadDirectoryActionSeq,
@@ -38,6 +37,7 @@ import {
 import {
   convertToUrl,
   getSampleInfoFromName,
+  isApiLimitError,
   renderTemplateFileData,
   renderTemplateFileName,
 } from "./utils";
