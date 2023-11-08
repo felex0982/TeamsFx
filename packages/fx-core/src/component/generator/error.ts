@@ -58,7 +58,7 @@ export class DownloadSampleNetworkError extends BaseComponentInnerError {
       "DownloadSampleNetworkError",
       "error.generator.DownloadSampleNetworkError",
       [url],
-      ["plugins.frontend.checkNetworkTip"],
+      undefined,
       undefined,
       undefined,
       error
